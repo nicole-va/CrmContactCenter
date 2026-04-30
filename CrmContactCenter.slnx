@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Elementos de la solución/">
+    <File Path="README.md" />
+  </Folder>
+  <Project Path="crmcontactcenter.client/crmcontactcenter.client.esproj">
+    <Build />
+    <Deploy />
+  </Project>
+  <Project Path="CrmContactCenter.Server/CrmContactCenter.Server.csproj" />
+</Solution>
