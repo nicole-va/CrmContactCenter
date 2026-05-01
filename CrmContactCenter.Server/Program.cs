@@ -133,15 +133,12 @@ var app = builder.Build();
 
 // ============================================================
 //  7. MIDDLEWARE PIPELINE
-// ============================================================
-if (app.Environment.IsDevelopment())
+// ===========================================================
+app.UseSwagger();
+app.UseSwaggerUI(options =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI(options =>
-    {
-        options.SwaggerEndpoint("/swagger/v1/swagger.json", "CRM API v1");
-    });
-}
+   options.SwaggerEndpoint("/swagger/v1/swagger.json", "CRM API v1");
+});
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
