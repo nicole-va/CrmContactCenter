@@ -10,6 +10,21 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
+static string[] BuildCorsOrigins(IConfiguration configuration)
+{
+    var defaults = new[]
+    {
+        "https://localhost:5173", "http://localhost:5173",
+        "https://localhost:63759", "http://localhost:63759"
+    };
+    var extra = configuration["Cors:AdditionalOrigins"];
+    if (string.IsNullOrWhiteSpace(extra))
+        return defaults;
+
+    var fromConfig = extra.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+    return defaults.Concat(fromConfig).Distinct(StringComparer.OrdinalIgnoreCase).ToArray();
+}
+
 var builder = WebApplication.CreateBuilder(args);
 
 // ============================================================
@@ -102,15 +117,13 @@ builder.Services.AddSwaggerGen(options =>
 // ============================================================
 //  5. CORS — permite peticiones desde Vue.js
 // ============================================================
+var corsOrigins = BuildCorsOrigins(builder.Configuration);
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowVue", policy =>
     {
-        // En dev el front puede correr en distintos puertos (Vite elige uno si está ocupado).
-        policy.WithOrigins(
-                "https://localhost:5173", "http://localhost:5173",
-                "https://localhost:63759", "http://localhost:63759"
-            )
+        // Localhost + orígenes extra (p. ej. front en Vercel). En Railway: Cors__AdditionalOrigins
+        policy.WithOrigins(corsOrigins)
               .AllowAnyHeader()
               .AllowAnyMethod();
     });

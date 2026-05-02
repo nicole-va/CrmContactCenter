@@ -1,7 +1,11 @@
 import axios from 'axios'
 
+// En Vercel define VITE_API_BASE_URL=https://tu-api.up.railway.app/api (Settings → Environment Variables)
+const baseURL =
+  import.meta.env.VITE_API_BASE_URL?.replace(/\/$/, '') || '/api'
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL,
   headers: {
     'Content-Type': 'application/json'
   }
