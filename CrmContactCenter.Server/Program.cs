@@ -159,6 +159,7 @@ app.UseStaticFiles();
 // Middleware global de errores (lo crearemos en Middleware/)
 // app.UseMiddleware<GlobalExceptionMiddleware>();
 
+app.UseRouting();
 app.UseHttpsRedirection();
 app.UseCors("AllowVue");
 app.UseAuthentication();
