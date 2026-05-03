@@ -122,8 +122,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowVue", policy =>
     {
-        // Localhost + orígenes extra (p. ej. front en Vercel). En Railway: Cors__AdditionalOrigins
-        policy.WithOrigins(corsOrigins)
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
